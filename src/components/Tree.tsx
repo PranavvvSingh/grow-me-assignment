@@ -1,83 +1,84 @@
 import { useState } from "react"
 import { jsondata } from "../data/data"
-import { NodeType, TreeType } from "../types"
+import { TreeType } from "../types"
 import Checkbox from "@mui/material/Checkbox"
 import { default as ExpandIcon } from "@mui/icons-material/AddBox"
 import { default as CollapseIcon } from "@mui/icons-material/IndeterminateCheckBox"
+import { Box } from "@mui/material"
 
-
+type SubDepartmentPorps = {
+   subDepartmentId: number
+   subDepartment: string
+   checked: boolean[]
+   setChecked: React.Dispatch<React.SetStateAction<boolean[]>>
+}
 
 const SubDepartment = ({
+   subDepartmentId,
    subDepartment,
-   departmentId,
-   setData
-}: {
-   subDepartment: NodeType
-   departmentId: string
-   setData: React.Dispatch<React.SetStateAction<TreeType[]>>
-}) => {
-   const handleSubdepartmentChange = () => {
-      setData((prevData) => {
-         const newData = prevData.map((dep) =>
-            dep.department.id === departmentId
-               ? {
-                    ...dep,
-                    sub_departments: dep.sub_departments.map((subDep) =>
-                       subDep.id === subDepartment.id
-                          ? { ...subDep, isChecked: !subDepartment.isChecked }
-                          : subDep,
-                    ),
-                 }
-               : dep,
-         )
-
-         return newData
-      })
+   checked,
+   setChecked,
+}: SubDepartmentPorps) => {
+   const handleCheckboxChange = () => {
+      setChecked((prevChecked) =>
+         [...prevChecked].map((value, index) =>
+            index === subDepartmentId ? !value : value,
+         ),
+      )
    }
    return (
-      <h6>
+      <h4>
          <Checkbox
-            checked={subDepartment.isChecked}
-            onChange={handleSubdepartmentChange}
+            checked={checked[subDepartmentId]}
+            onChange={handleCheckboxChange}
             inputProps={{ "aria-label": "controlled" }}
          />
-         {subDepartment.id}
-      </h6>
+         {subDepartment}
+      </h4>
    )
 }
 
-const Department = ({
-   data,
-   setData,
-}: {
-   data: TreeType
-   setData: React.Dispatch<React.SetStateAction<TreeType[]>>
-}) => {
+const Department = ({ department }: { department: TreeType }) => {
    const [showChildren, setShowChildren] = useState(true)
+   const [checked, setChecked] = useState(
+      Array(department.sub_departments.length).fill(false),
+   )
+   const selfchecked=checked.every((status)=>status)
+   function HandleChange(){
+      setChecked((current)=>current.map(()=>!selfchecked))
+   }
    return (
       <div>
-         <h4>
+         <Box sx={{ display: "flex", alignItems: "center"  }}>
             {showChildren ? (
                <CollapseIcon
-                  color="primary"
+                  color="inherit"
                   onClick={() => setShowChildren(false)}
+                  fontSize="small"
                />
             ) : (
                <ExpandIcon
-                  color="primary"
+                  color="inherit"
                   onClick={() => setShowChildren(true)}
+                  fontSize="small"
                />
             )}
-            {data.department.id}
-         </h4>
+            <Checkbox
+               checked={selfchecked}
+               onChange={HandleChange}
+               inputProps={{ "aria-label": "controlled" }}
+            />
+            <h3>{department.department}</h3>
+         </Box>
 
          {showChildren &&
-            data.sub_departments.map((subDepartment) => (
-               <div key={subDepartment.id} style={{ marginLeft: "100px" }}>
+            department.sub_departments.map((subDepartment, index) => (
+               <div key={subDepartment} style={{ marginLeft: "100px" }}>
                   <SubDepartment
+                     subDepartmentId={index}
                      subDepartment={subDepartment}
-                     departmentId={data.department.id}
-                     setData={setData}
+                     checked={checked}
+                     setChecked={setChecked}
                   />
                </div>
             ))}
@@ -86,14 +87,26 @@ const Department = ({
 }
 
 const Tree = () => {
-   const [data, setData] = useState<TreeType[]>(jsondata)
-   console.log(data)
+   const [data] = useState<TreeType[]>(jsondata)
    return (
-      <div style={{height:"100vh", marginLeft:"500px"}}>
-         {data.map((data) => (
-            <Department data={data} setData={setData} />
-         ))}
-      </div>
+      <>
+         <Box
+            sx={{
+               width: "100%",
+               p: 3,
+               textTransform: "capitalize",
+               my: 10,
+            }}
+            style={{ height: "600px" }}
+         >
+            <h2>Tree Component</h2>
+            <Box sx={{ width: "25%", mx: "auto" }}>
+               {data.map((department,index) => (
+                  <Department key={index} department={department} />
+               ))}
+            </Box>
+         </Box>
+      </>
    )
 }
 
