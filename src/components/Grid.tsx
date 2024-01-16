@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { DataType } from "../types"
-import Tree from "./Tree"
+import Tree from "./Tree/Tree"
 
 const columns: GridColDef[] = [
    { field: "userId", headerName: "User", flex: 0.1 },
@@ -22,7 +22,6 @@ const columns: GridColDef[] = [
       sortable: false,
    },
 ]
-
 
 export default function Grid() {
    const [data, setData] = useState<DataType[]>([])
@@ -54,7 +53,7 @@ export default function Grid() {
                disableRowSelectionOnClick
             />
          </Box>
-         <Tree/>
+         <Tree />
       </>
    )
 }

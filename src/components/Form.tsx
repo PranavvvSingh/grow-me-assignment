@@ -14,7 +14,6 @@ const Form = ({ form, setForm, setSnackOpen }: FormPropsType) => {
       e.preventDefault()
       setSnackOpen(true)
       setItem(form)
-      console.log(form)
    }
    return (
       <Box
