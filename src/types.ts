@@ -11,12 +11,6 @@ export type DataType = {
    body: string
 }
 
-// export type NodeType = {
-//    id: string
-//    isChecked?: boolean
-// }
-
-
 export type TreeType = {
    department: string
    sub_departments: string[]

@@ -1,15 +1,17 @@
 import { Box, Button, Stack, TextField } from "@mui/material"
 import useLocalStorage from "../hooks/useLocalStorage"
-import { FormType } from "../types"
+import { useContext } from "react"
+import { FormContext } from "../context/FormContext"
 
-type FormPropsType = {
-   form: FormType
-   setForm: React.Dispatch<React.SetStateAction<FormType>>
-   setSnackOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+// type FormPropsType = {
+//    form: FormType
+//    setForm: React.Dispatch<React.SetStateAction<FormType>>
+//    setSnackOpen: React.Dispatch<React.SetStateAction<boolean>>
+// }
 
-const Form = ({ form, setForm, setSnackOpen }: FormPropsType) => {
+const Form = () => {
    const { setItem } = useLocalStorage("form-data")
+   const {form, setForm, setSnackOpen} = useContext(FormContext)
    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
       setSnackOpen(true)
