@@ -1,27 +1,28 @@
 import "./App.css"
 import Snack from "./components/Snack"
 import Form from "./components/Form"
-import Navbar from "./components/Navbar"
 import Grid from "./components/Grid"
-import { Route, Routes } from "react-router-dom"
-import { BrowserRouter } from "react-router-dom"
+import { Route, Routes, BrowserRouter } from "react-router-dom"
+import RequireAuth from "./components/RequireAuth"
+import Layout from "./components/Layout"
 
 function App() {
    return (
       <BrowserRouter>
-         <Navbar />
          <Routes>
-            <Route
-               path="/"
-               element={
-                  <>
-                     <Form />
-                     <Snack />
-                  </>
-               }
-            />
-            <Route path="components" element={<Grid />} />
+            <Route path="/" element={<Layout />}>
+               <Route index element={<Form />} />
+               <Route
+                  path="components"
+                  element={
+                     <RequireAuth>
+                        <Grid />
+                     </RequireAuth>
+                  }
+               />
+            </Route>
          </Routes>
+         <Snack />
       </BrowserRouter>
    )
 }

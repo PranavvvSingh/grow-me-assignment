@@ -10,15 +10,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-// type SnackProps = {
-//    snackOpen: boolean
-//    setSnackOpen: React.Dispatch<React.SetStateAction<boolean>>
-//    username: string
-// }
-
 const Snack = () => {
-   const { snackOpen, setSnackOpen, form } = useContext(FormContext)
-   const username = form.name
+   const { snackOpen, setSnackOpen, snackMessage } = useContext(FormContext)
    const handleClose = (
       _event?: React.SyntheticEvent | Event,
       reason?: string,
@@ -31,9 +24,13 @@ const Snack = () => {
    }
 
    return (
-      <Snackbar open={snackOpen} autoHideDuration={2000} onClose={handleClose}>
-         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-            Welcome {username}!
+      <Snackbar
+         open={snackOpen}
+         autoHideDuration={3000}
+         onClose={handleClose}
+      >
+         <Alert onClose={handleClose} severity="success">
+            {snackMessage}
          </Alert>
       </Snackbar>
    )

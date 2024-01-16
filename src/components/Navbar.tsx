@@ -1,124 +1,86 @@
-import * as React from "react"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
-import CssBaseline from "@mui/material/CssBaseline"
-import Divider from "@mui/material/Divider"
-import Drawer from "@mui/material/Drawer"
-import IconButton from "@mui/material/IconButton"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
-import MenuIcon from "@mui/icons-material/Menu"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
+import { NavLink, useNavigate } from "react-router-dom"
 import Button from "@mui/material/Button"
-import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { FormContext } from "../context/FormContext"
 import useLocalStorage from "../hooks/useLocalStorage"
+import CssBaseline from "@mui/material/CssBaseline"
 
-interface Props {
-   /**
-    * Injected by the documentation to work in an iframe.
-    * You won't need it on your project.
-    */
-   window?: () => Window
-}
-
-const drawerWidth = 240
-const navItems = [
-   { label: "Home", route: "/" },
-   { label: "Components", route: "/components" },
-   { label: "Log Out", route: "logout" },
-]
-
-export default function Navbar(props: Props) {
-   const { window } = props
-   const [mobileOpen, setMobileOpen] = React.useState(false)
-   const navigate = useNavigate()
-   const { removeItem } = useLocalStorage("form-data")
-
-   const handleDrawerToggle = () => {
-      setMobileOpen((prevState) => !prevState)
-   }
-
-   const drawer = (
-      <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-         <Typography variant="h6" sx={{ my: 2 }}>
-            Assignment-PranavSingh
-         </Typography>
-         <Divider />
-         <List>
-            {navItems.map((item) => (
-               <ListItem key={item.label} disablePadding>
-                  <ListItemButton sx={{ textAlign: "center" }}>
-                     <ListItemText primary={item.label} />
-                  </ListItemButton>
-               </ListItem>
-            ))}
-         </List>
-      </Box>
-   )
-
-   const container =
-      window !== undefined ? () => window().document.body : undefined
-
+export default function Navbar() {
+   const { form, setForm, setSnackMessage, setSnackOpen } =
+      useContext(FormContext)
+      const {removeItem}  = useLocalStorage("form-data")
+      const navigate = useNavigate()
    return (
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ flexGrow: 1, margin: 0 }}>
          <CssBaseline />
          <AppBar component="nav" position="sticky">
             <Toolbar>
-               <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  onClick={handleDrawerToggle}
-                  sx={{ mr: 2, display: { sm: "none" } }}
-               >
-                  <MenuIcon />
-               </IconButton>
-               <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-               >
-                  Assignment - PranavSingh
+               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  Assignment-PranavSingh
                </Typography>
-               <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                  {navItems.map((item) => (
-                     <Button
-                        key={item.label}
-                        sx={{ color: "#fff", m:1 }}
-                        onClick={() => {
-                           if(item.route==='logout') removeItem()
-                           else navigate(item.route)
-                        }}
-                     >
-                        {item.label}
-                     </Button>
-                  ))}
-               </Box>
+
+               <NavLink to="/">
+                  <Button
+                     variant="contained"
+                     sx={{ mr: 1 }}
+                     color="info"
+                     size="small"
+                  >
+                     Home
+                  </Button>
+               </NavLink>
+
+               <NavLink to="/components">
+                  <Button
+                     variant="contained"
+                     sx={{ mr: 1 }}
+                     color="info"
+                     size="small"
+                  >
+                     Components
+                  </Button>
+               </NavLink>
+
+               {form.name && (
+                  <Button
+                     variant="contained"
+                     color="warning"
+                     size="small"
+                     onClick={() => {
+                        removeItem()
+                        setForm({
+                           name: "",
+                           email: "",
+                           phone: "",
+                        })
+                        setSnackMessage("Logged Out")
+                        setSnackOpen(true)
+                        navigate("/")
+                     }}
+                  >
+                     LogOut
+                  </Button>
+               )}
             </Toolbar>
          </AppBar>
-         <nav>
-            <Drawer
-               container={container}
-               variant="temporary"
-               open={mobileOpen}
-               onClose={handleDrawerToggle}
-               ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-               }}
-               sx={{
-                  display: { xs: "block", sm: "none" },
-                  "& .MuiDrawer-paper": {
-                     boxSizing: "border-box",
-                     width: drawerWidth,
-                  },
-               }}
-            >
-               {drawer}
-            </Drawer>
-         </nav>
       </Box>
    )
 }
+
+// onClick={() => {
+//    if (item.route === "logout") {
+//       removeItem()
+//       setForm({
+//          name: "",
+//          email: "",
+//          phone: "",
+//       })
+//       setSnackMessage("Logged Out")
+//       setSnackOpen(true)
+//       navigate("/")
+//    } else navigate(item.route)
+// }}
