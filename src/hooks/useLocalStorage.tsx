@@ -1,4 +1,5 @@
 const useLocalStorage = (key: string) => {
+   // For storing form data in local storage
    const setItem = (value: unknown) => {
       try {
          window.localStorage.setItem(key, JSON.stringify(value))
@@ -6,6 +7,7 @@ const useLocalStorage = (key: string) => {
          console.log(error)
       }
    }
+   // For Fetching form data from local storage
    const getItem = () => {
       try {
          const item = window.localStorage.getItem(key)
@@ -14,6 +16,7 @@ const useLocalStorage = (key: string) => {
          console.log(error)
       }
    }
+   // Form removing form data from local storage
    const removeItem = () => {
       try {
          window.localStorage.removeItem(key)

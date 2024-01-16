@@ -7,6 +7,7 @@ type SubDepartmentPorps = {
    setChecked: React.Dispatch<React.SetStateAction<boolean[]>>
 }
 
+// function to toggle the checked state of subdepartment
 const SubDepartment = ({
    subDepartmentId,
    subDepartment,

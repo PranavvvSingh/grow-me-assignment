@@ -8,41 +8,48 @@ import { useContext } from "react"
 import { FormContext } from "../context/FormContext"
 import useLocalStorage from "../hooks/useLocalStorage"
 import CssBaseline from "@mui/material/CssBaseline"
+import HomeIcon from "@mui/icons-material/Home"
+import ViewComfyIcon from "@mui/icons-material/ViewComfy"
+import { SvgIconProps} from "@mui/material"
+
+const NavButton = ({
+   label,
+   startIcon,
+}: {
+   label: string
+   startIcon: React.ReactElement<SvgIconProps>
+}) => {
+   return (
+      <Button
+         variant="text"
+         sx={{ mr: 2 }}
+         style={{ color: "white" }}
+         startIcon={startIcon}
+      >
+         {label}
+      </Button>
+   )
+}
 
 export default function Navbar() {
    const { form, setForm, setSnackMessage, setSnackOpen } =
       useContext(FormContext)
-      const {removeItem}  = useLocalStorage("form-data")
-      const navigate = useNavigate()
+   const { removeItem } = useLocalStorage("form-data")
+   const navigate = useNavigate()
    return (
       <Box sx={{ flexGrow: 1, margin: 0 }}>
          <CssBaseline />
-         <AppBar component="nav" position="sticky">
+         <AppBar component="nav" position="sticky" color="info">
             <Toolbar>
                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                   Assignment-PranavSingh
                </Typography>
 
                <NavLink to="/">
-                  <Button
-                     variant="contained"
-                     sx={{ mr: 1 }}
-                     color="info"
-                     size="small"
-                  >
-                     Home
-                  </Button>
+                  <NavButton label="home" startIcon={<HomeIcon />} />
                </NavLink>
-
                <NavLink to="/components">
-                  <Button
-                     variant="contained"
-                     sx={{ mr: 1 }}
-                     color="info"
-                     size="small"
-                  >
-                     Components
-                  </Button>
+                  <NavButton label="components" startIcon={<ViewComfyIcon />} />
                </NavLink>
 
                {form.name && (

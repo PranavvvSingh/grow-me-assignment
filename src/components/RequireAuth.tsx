@@ -10,6 +10,7 @@ const RequireAuth = ({ children }: PropsWithChildren) => {
          setSnackMessage("Fill the form!")
          setSnackOpen(true)
       }
+      console.log("auth running")
    }, [form.name, setSnackMessage, setSnackOpen])
 
    return form.name ? children : <Navigate to="/" />

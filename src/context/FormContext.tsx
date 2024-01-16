@@ -1,5 +1,6 @@
-import { PropsWithChildren, createContext, useState } from "react"
+import { PropsWithChildren, createContext, useEffect, useState } from "react"
 import { FormType } from "../types"
+import useLocalStorage from "../hooks/useLocalStorage"
 
 type ContextType = {
    form: FormType
@@ -13,15 +14,37 @@ type ContextType = {
 export const FormContext = createContext<ContextType>({} as ContextType)
 
 const FormContextProvider = ({ children }: PropsWithChildren) => {
+   const { getItem } = useLocalStorage("form-data")
    const [form, setForm] = useState<FormType>({
       name: "",
       email: "",
       phone: "",
    })
+   useEffect(() => {
+      // Load form data from local storage when the component mounts
+      const localData = getItem()
+      if (localData) {
+         setForm({
+            name: localData.name,
+            phone: localData.phone,
+            email: localData.email,
+         })
+      }
+      console.log("loading")
+   }, [])
    const [snackOpen, setSnackOpen] = useState(false)
    const [snackMessage, setSnackMessage] = useState("")
    return (
-      <FormContext.Provider value={{ form, setForm, snackOpen, setSnackOpen, snackMessage, setSnackMessage }}>
+      <FormContext.Provider
+         value={{
+            form,
+            setForm,
+            snackOpen,
+            setSnackOpen,
+            snackMessage,
+            setSnackMessage,
+         }}
+      >
          {children}
       </FormContext.Provider>
    )

@@ -7,16 +7,21 @@ import SubDepartment from "./SubDepartment"
 
 const Department = ({ department }: { department: TreeType }) => {
    const [showChildren, setShowChildren] = useState(true)
+
+   // Array to maintain the checked state of each subdepartment
    const [checked, setChecked] = useState(
       Array(department.sub_departments.length).fill(false),
    )
+   // If the department itself is checked or not
    const selfchecked = checked.every((status) => status)
+
+   // Toggle
    function HandleChange() {
       setChecked((current) => current.map(() => !selfchecked))
    }
    return (
       <div>
-         <Box sx={{ display: "flex", alignItems: "center" }}>
+         <Box sx={{ display: "flex", alignItems: "center", gap:0.5 }}>
             {showChildren ? (
                <CollapseIcon
                   color="inherit"
@@ -36,6 +41,7 @@ const Department = ({ department }: { department: TreeType }) => {
                inputProps={{ "aria-label": "controlled" }}
             />
             <h3>{department.department}</h3>
+            <sub>({department.sub_departments.length})</sub>
          </Box>
 
          {showChildren &&
