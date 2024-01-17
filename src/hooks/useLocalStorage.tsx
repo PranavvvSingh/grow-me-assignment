@@ -1,3 +1,5 @@
+// Custom hook to interact with localStorage
+
 const useLocalStorage = (key: string) => {
    // For storing form data in local storage
    const setItem = (value: unknown) => {

@@ -4,6 +4,7 @@ import { TreeType } from "../../types"
 import { default as ExpandIcon } from "@mui/icons-material/AddBox"
 import { default as CollapseIcon } from "@mui/icons-material/IndeterminateCheckBox"
 import SubDepartment from "./SubDepartment"
+import format from "../../utils/formatString"
 
 const Department = ({ department }: { department: TreeType }) => {
    const [showChildren, setShowChildren] = useState(true)
@@ -40,7 +41,7 @@ const Department = ({ department }: { department: TreeType }) => {
                onChange={HandleChange}
                inputProps={{ "aria-label": "controlled" }}
             />
-            <h3>{department.department}</h3>
+            <h3>{format(department.department)}</h3>
             <sub>({department.sub_departments.length})</sub>
          </Box>
 

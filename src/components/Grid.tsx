@@ -37,7 +37,7 @@ export default function Grid() {
    return (
       <>
          <Box sx={{ height: "85vh", width: "100%", p: 3 }}>
-            <h2>Data Grid</h2>
+            <h2>1) Data Grid</h2>
             <DataGrid
                rows={data}
                columns={columns}

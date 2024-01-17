@@ -17,7 +17,7 @@ const Tree = () => {
             }}
             style={{ height: "600px" }}
          >
-            <h2>Tree Component</h2>
+            <h2>2) Tree Component</h2>
             <Box sx={{ width: "25%", mx: "auto" }}>
                {data.map((department, index) => (
                   <Department key={index} department={department} />

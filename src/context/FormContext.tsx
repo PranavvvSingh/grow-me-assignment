@@ -29,8 +29,8 @@ const FormContextProvider = ({ children }: PropsWithChildren) => {
             phone: localData.phone,
             email: localData.email,
          })
+         // console.log("loaded data from localStorage")
       }
-      console.log("loading")
    }, [])
    const [snackOpen, setSnackOpen] = useState(false)
    const [snackMessage, setSnackMessage] = useState("")

@@ -1,4 +1,5 @@
 import Checkbox from "@mui/material/Checkbox"
+import format from "../../utils/formatString"
 
 type SubDepartmentPorps = {
    subDepartmentId: number
@@ -28,7 +29,7 @@ const SubDepartment = ({
             onChange={handleCheckboxChange}
             inputProps={{ "aria-label": "controlled" }}
          />
-         {subDepartment}
+         {format(subDepartment)}
       </h4>
    )
 }
